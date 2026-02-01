@@ -69,6 +69,10 @@ Bitte erstelle eine detaillierte, personalisierte Investitionsempfehlung mit fol
 Bitte antworte auf Deutsch und strukturiere die Antwort übersichtlich.`;
 
     // API Request zu Groq
+    console.log('Attempting Groq API call with model: mixtral-8x7b-32768');
+    console.log('API Key present:', !!process.env.GROQ_API_KEY);
+    console.log('API Key length:', process.env.GROQ_API_KEY?.length);
+    
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
@@ -87,8 +91,9 @@ Bitte antworte auf Deutsch und strukturiere die Antwort übersichtlich.`;
 
     if (!response.ok) {
       const errorData = await response.text();
-      console.error('Groq API Error:', errorData);
-      throw new Error(`API returned ${response.status}`);
+      console.error('Groq API Error Status:', response.status);
+      console.error('Groq API Error Body:', errorData);
+      throw new Error(`Groq API Error ${response.status}: ${errorData}`);
     }
 
     const data = await response.json();
