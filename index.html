@@ -7,70 +7,380 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-content">
             <div class="logo">InvestWise</div>
             <div class="nav-links">
-                <a href="#home">Home</a>
-                <a href="#about">Über uns</a>
-                <a href="#contact">Kontakt</a>
+                <a href="#" class="nav-link active" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="dashboard">Dashboard</a>
+                <a href="#" class="nav-link" data-page="education">Bildung</a>
+                <a href="#" class="nav-link" data-page="calculator">Vergleich</a>
+                <a href="#" class="nav-link" data-page="portfolio">Portfolio</a>
+                <a href="#" class="nav-link" data-page="about">Über uns</a>
             </div>
         </div>
     </nav>
 
-    <main>
-        <section class="hero">
-            <h1>Investiere intelligent.</h1>
-            <p class="subtitle">KI-gestützte Empfehlungen für dein Portfolio.</p>
+    <main class="main-content">
+        <!-- HOME PAGE -->
+        <section id="home-page" class="page active">
+            <section class="hero">
+                <h1>Investiere intelligent.</h1>
+                <p class="subtitle">KI-gestützte Empfehlungen für dein Portfolio.</p>
+            </section>
+
+            <section class="investment-section">
+                <div class="card">
+                    <h2>Dein Investitionsbetrag</h2>
+                    <div class="input-group">
+                        <span class="currency">CHF</span>
+                        <input 
+                            type="number" 
+                            id="investmentAmount" 
+                            placeholder="10000"
+                            min="100"
+                            step="100"
+                        >
+                    </div>
+                    
+                    <div class="risk-selector">
+                        <label>Risikoprofil</label>
+                        <div class="risk-buttons">
+                            <button class="risk-btn" data-risk="conservative">Konservativ</button>
+                            <button class="risk-btn active" data-risk="moderate">Moderat</button>
+                            <button class="risk-btn" data-risk="aggressive">Aggressiv</button>
+                        </div>
+                    </div>
+
+                    <div class="time-selector">
+                        <label>Anlagehorizont</label>
+                        <select id="timeHorizon">
+                            <option value="short">Kurzfristig (< 1 Jahr)</option>
+                            <option value="medium" selected>Mittelfristig (1-5 Jahre)</option>
+                            <option value="long">Langfristig (> 5 Jahre)</option>
+                        </select>
+                    </div>
+
+                    <button class="cta-button" id="analyzeBtn">
+                        <span id="btnText">Empfehlung erhalten</span>
+                        <span id="btnLoader" class="loader hidden"></span>
+                    </button>
+                </div>
+
+                <div class="results-card hidden" id="resultsCard">
+                    <h2>Deine persönliche Empfehlung</h2>
+                    <div id="recommendationContent" class="recommendation-content"></div>
+                </div>
+            </section>
         </section>
 
-        <section class="investment-section">
-            <div class="card">
-                <h2>Dein Investitionsbetrag</h2>
-                <div class="input-group">
-                    <span class="currency">CHF</span>
-                    <input 
-                        type="number" 
-                        id="investmentAmount" 
-                        placeholder="10000"
-                        min="100"
-                        step="100"
-                    >
-                </div>
-                
-                <div class="risk-selector">
-                    <label>Risikoprofil</label>
-                    <div class="risk-buttons">
-                        <button class="risk-btn" data-risk="conservative">Konservativ</button>
-                        <button class="risk-btn active" data-risk="moderate">Moderat</button>
-                        <button class="risk-btn" data-risk="aggressive">Aggressiv</button>
+        <!-- DASHBOARD PAGE -->
+        <section id="dashboard-page" class="page">
+            <div class="page-header">
+                <h1>Market Dashboard</h1>
+                <p>Live Marktdaten & Analysen</p>
+            </div>
+
+            <div class="dashboard-grid">
+                <!-- Market Overview -->
+                <div class="dashboard-card">
+                    <h3>Marktübersicht</h3>
+                    <div id="marketOverview" class="market-data">
+                        <div class="market-item">
+                            <span class="market-label">S&P 500</span>
+                            <span class="market-value" id="sp500">—</span>
+                        </div>
+                        <div class="market-item">
+                            <span class="market-label">DAX</span>
+                            <span class="market-value" id="dax">—</span>
+                        </div>
+                        <div class="market-item">
+                            <span class="market-label">SMI</span>
+                            <span class="market-value" id="smi">—</span>
+                        </div>
                     </div>
                 </div>
 
-                <div class="time-selector">
-                    <label>Anlagehorizont</label>
-                    <select id="timeHorizon">
-                        <option value="short">Kurzfristig (< 1 Jahr)</option>
-                        <option value="medium" selected>Mittelfristig (1-5 Jahre)</option>
-                        <option value="long">Langfristig (> 5 Jahre)</option>
-                    </select>
+                <!-- Crypto Prices -->
+                <div class="dashboard-card">
+                    <h3>Kryptowährungen</h3>
+                    <div id="cryptoPrices" class="crypto-data">
+                        <div class="crypto-item">
+                            <span class="crypto-label">Bitcoin</span>
+                            <span class="crypto-value" id="bitcoin">—</span>
+                        </div>
+                        <div class="crypto-item">
+                            <span class="crypto-label">Ethereum</span>
+                            <span class="crypto-value" id="ethereum">—</span>
+                        </div>
+                    </div>
                 </div>
 
-                <button class="cta-button" id="analyzeBtn">
-                    <span id="btnText">Empfehlung erhalten</span>
-                    <span id="btnLoader" class="loader hidden"></span>
-                </button>
+                <!-- Fear & Greed Index -->
+                <div class="dashboard-card">
+                    <h3>Fear & Greed Index</h3>
+                    <div class="fear-greed-indicator">
+                        <div id="fearGreedValue" class="fgi-value">—</div>
+                        <p class="fgi-label" id="fearGreedLabel">Lädt...</p>
+                    </div>
+                </div>
+
+                <!-- Forex -->
+                <div class="dashboard-card">
+                    <h3>Währungskurse</h3>
+                    <div id="forexData" class="forex-data">
+                        <div class="forex-item">
+                            <span class="forex-label">EUR/CHF</span>
+                            <span class="forex-value" id="eur-chf">—</span>
+                        </div>
+                        <div class="forex-item">
+                            <span class="forex-label">USD/CHF</span>
+                            <span class="forex-value" id="usd-chf">—</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- EDUCATION PAGE -->
+        <section id="education-page" class="page">
+            <div class="page-header">
+                <h1>Investment Bildung</h1>
+                <p>Lerne die Grundlagen der Geldanlage</p>
             </div>
 
-            <div class="results-card hidden" id="resultsCard">
-                <h2>Deine persönliche Empfehlung</h2>
-                <div id="recommendationContent" class="recommendation-content"></div>
+            <div class="education-grid">
+                <article class="education-card">
+                    <h3>Was ist ein ETF?</h3>
+                    <p>Ein Exchange Traded Fund (ETF) ist ein Fonds, der an der Börse gehandelt wird und einen Index abbildet.</p>
+                    <div class="education-content">
+                        <h4>Vorteile:</h4>
+                        <ul>
+                            <li>✅ Niedrige Gebühren</li>
+                            <li>✅ Hohe Diversifikation</li>
+                            <li>✅ Einfach zu kaufen und verkaufen</li>
+                            <li>✅ Transparente Struktur</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="education-card">
+                    <h3>Diversifikation</h3>
+                    <p>Das Prinzip "Nicht alle Eier in einen Korb legen" ist fundamental für sicheres Investieren.</p>
+                    <div class="education-content">
+                        <h4>Warum diversifizieren?</h4>
+                        <ul>
+                            <li>📊 Risiko verringern</li>
+                            <li>📈 Konsistente Renditen</li>
+                            <li>🛡️ Schutz vor Marktvolatilität</li>
+                            <li>🌍 Zugang zu verschiedenen Märkten</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="education-card">
+                    <h3>Risikomanagement</h3>
+                    <p>Verstehe dein Risikoprofil und passe deine Strategie entsprechend an.</p>
+                    <div class="education-content">
+                        <h4>Die 3 Risiko-Profile:</h4>
+                        <ul>
+                            <li>🟢 Konservativ: 30% Aktien, 70% Anleihen</li>
+                            <li>🟡 Moderat: 60% Aktien, 40% Anleihen</li>
+                            <li>🔴 Aggressiv: 90% Aktien, 10% Cash</li>
+                        </ul>
+                    </div>
+                </article>
+
+                <article class="education-card">
+                    <h3>Anfänger-Guide</h3>
+                    <p>Die ersten Schritte zum erfolgreichen Investor.</p>
+                    <div class="education-content">
+                        <h4>Schritt-für-Schritt:</h4>
+                        <ol>
+                            <li>1️⃣ Notgroschen aufbauen (3-6 Monate)</li>
+                            <li>2️⃣ Depot eröffnen</li>
+                            <li>3️⃣ Strategie wählen</li>
+                            <li>4️⃣ Regelmäßig investieren</li>
+                            <li>5️⃣ Langfristig halten</li>
+                        </ol>
+                    </div>
+                </article>
+
+                <article class="education-card">
+                    <h3>Dollar-Cost-Averaging</h3>
+                    <p>Investiere regelmäßig feste Beträge, um Marktrisiken zu reduzieren.</p>
+                    <div class="education-content">
+                        <p>Diese bewährte Strategie hilft dir, Marktvolatilität zu überwinden und diszipliniert zu investieren.</p>
+                    </div>
+                </article>
+
+                <article class="education-card">
+                    <h3>Langfristig vs. Kurzfristig</h3>
+                    <p>Warum Langzeitanleger bessere Ergebnisse erzielen.</p>
+                    <div class="education-content">
+                        <p>Der Durchschnitt: 10-Jahres-Rendite S&P 500 ~10% p.a. Trading kostet durchschnittlich 2-3% p.a.</p>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- CALCULATOR PAGE -->
+        <section id="calculator-page" class="page">
+            <div class="page-header">
+                <h1>Strategie-Vergleichsrechner</h1>
+                <p>Vergleiche verschiedene Investment-Strategien</p>
+            </div>
+
+            <div class="calculator-container">
+                <div class="calculator-inputs">
+                    <label>Investitionsbetrag (CHF)</label>
+                    <input type="number" id="calcAmount" placeholder="10000" min="100" value="10000">
+
+                    <label>Zeitraum (Jahre)</label>
+                    <input type="number" id="calcYears" placeholder="10" min="1" value="10">
+
+                    <label>Jährliche Einzahlung (CHF)</label>
+                    <input type="number" id="calcMonthly" placeholder="1000" min="0" value="1000">
+
+                    <button class="cta-button" id="calcButton">Berechnen</button>
+                </div>
+
+                <div id="calcResults" class="calc-results hidden">
+                    <div class="strategy-result conservative">
+                        <h3>🟢 Konservativ</h3>
+                        <p class="result-value" id="result-conservative">—</p>
+                        <p class="result-label">Endkapital</p>
+                        <p class="strategy-desc">30% Aktien, 70% Anleihen - Durchschn. 4% p.a.</p>
+                    </div>
+
+                    <div class="strategy-result moderate">
+                        <h3>🟡 Moderat</h3>
+                        <p class="result-value" id="result-moderate">—</p>
+                        <p class="result-label">Endkapital</p>
+                        <p class="strategy-desc">60% Aktien, 40% Anleihen - Durchschn. 6.5% p.a.</p>
+                    </div>
+
+                    <div class="strategy-result aggressive">
+                        <h3>🔴 Aggressiv</h3>
+                        <p class="result-value" id="result-aggressive">—</p>
+                        <p class="result-label">Endkapital</p>
+                        <p class="strategy-desc">90% Aktien, 10% Cash - Durchschn. 8.5% p.a.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PORTFOLIO PAGE -->
+        <section id="portfolio-page" class="page">
+            <div class="page-header">
+                <h1>Mein Portfolio</h1>
+                <p>Verwalte und tracke deine Investitionen</p>
+            </div>
+
+            <div class="portfolio-container">
+                <div class="portfolio-stats">
+                    <div class="stat-card">
+                        <span class="stat-label">Gesamtvermögen</span>
+                        <span class="stat-value" id="totalValue">CHF 0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Einzahlungen</span>
+                        <span class="stat-value" id="totalInvested">CHF 0</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Gewinn/Verlust</span>
+                        <span class="stat-value" id="totalGainLoss">CHF 0</span>
+                    </div>
+                </div>
+
+                <div class="portfolio-add">
+                    <h3>Neue Position hinzufügen</h3>
+                    <div class="add-position-form">
+                        <input type="text" id="positionName" placeholder="Instrument (z.B. VWRL.DE)">
+                        <input type="number" id="positionShares" placeholder="Anzahl" min="0.01" step="0.01">
+                        <input type="number" id="positionPrice" placeholder="Kaufpreis (CHF)" min="0" step="0.01">
+                        <button class="btn-secondary" id="addPositionBtn">Hinzufügen</button>
+                    </div>
+                </div>
+
+                <div id="portfolioList" class="portfolio-list">
+                    <!-- Positionen werden hier eingefügt -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="about-page" class="page">
+            <div class="page-header">
+                <h1>Über InvestWise</h1>
+                <p>Dein KI-gestützter Investitionspartner</p>
+            </div>
+
+            <div class="about-content">
+                <section class="about-section">
+                    <h2>Unsere Mission</h2>
+                    <p>Wir machen intelligente Geldanlage für jeden zugänglich. Mit KI-gestützten Analysen helfen wir Menschen, bessere Investitionsentscheidungen zu treffen – unabhängig von ihrem Erfahrungslevel.</p>
+                </section>
+
+                <section class="about-section">
+                    <h2>Warum InvestWise?</h2>
+                    <div class="about-features">
+                        <div class="feature">
+                            <h4>🤖 KI-Powered</h4>
+                            <p>Personalisierte Empfehlungen basierend auf dein Risikoprofil</p>
+                        </div>
+                        <div class="feature">
+                            <h4>📊 Datengetrieben</h4>
+                            <p>Live-Marktdaten und umfassende Analysen</p>
+                        </div>
+                        <div class="feature">
+                            <h4>🎓 Bildungsorientiert</h4>
+                            <p>Lerne Investment-Grundlagen von Experten</p>
+                        </div>
+                        <div class="feature">
+                            <h4>💎 Kostenlos</h4>
+                            <p>Keine versteckten Gebühren, 100% transparent</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="about-section">
+                    <h2>Wie funktioniert es?</h2>
+                    <div class="steps">
+                        <div class="step">
+                            <div class="step-number">1</div>
+                            <h4>Dein Profil</h4>
+                            <p>Definiere dein Risikoprofil und deinen Anlagehorizont</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">2</div>
+                            <h4>KI-Analyse</h4>
+                            <p>Unsere KI analysiert deine Situation und aktuelle Marktdaten</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">3</div>
+                            <h4>Empfehlungen</h4>
+                            <p>Erhalte personalisierte, praktische Investitionsempfehlungen</p>
+                        </div>
+                        <div class="step">
+                            <div class="step-number">4</div>
+                            <h4>Umsetzen</h4>
+                            <p>Nutze unsere Guides und tracke dein Portfolio</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="about-section">
+                    <h2>Disclaimer</h2>
+                    <p class="disclaimer-text">InvestWise bietet Informationen und KI-gestützte Empfehlungen. Dies ist KEINE professionelle Finanzberatung. Konsultiere immer einen lizenzierten Finanzberater vor großen Investitionsentscheidungen. Investitionen sind mit Risiken verbunden.</p>
+                </section>
             </div>
         </section>
     </main>
 
     <footer>
-        <p>© 2026 InvestWise. Powered by AI. Keine Anlageberatung.</p>
+        <p>© 2026 InvestWise. Powered by AI & Open Data.</p>
         <p class="disclaimer">Hinweis: Dies ist eine KI-gestützte Empfehlung und keine professionelle Finanzberatung.</p>
     </footer>
 
