@@ -69,7 +69,7 @@ Bitte erstelle eine detaillierte, personalisierte Investitionsempfehlung mit fol
 Bitte antworte auf Deutsch und strukturiere die Antwort übersichtlich.`;
 
     // API Request zu Groq
-    console.log('Attempting Groq API call with model: mixtral-8x7b-32768');
+    console.log('Attempting Groq API call with model: llama-3.1-70b-versatile');
     console.log('API Key present:', !!process.env.GROQ_API_KEY);
     console.log('API Key length:', process.env.GROQ_API_KEY?.length);
     
@@ -80,7 +80,7 @@ Bitte antworte auf Deutsch und strukturiere die Antwort übersichtlich.`;
         'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'mixtral-8x7b-32768',
+        model: 'llama-3.1-70b-versatile',
         max_tokens: 2000,
         messages: [{
           role: 'user',
